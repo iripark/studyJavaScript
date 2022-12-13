@@ -12,62 +12,37 @@
   <input type="text">
   <button>입력</button>
   <script>
+
     const number = parseInt(prompt('몇 명이 참가하나요?'), 10);
     const $button = document.querySelector('button');
     const $input = document.querySelector('input');
     const $word = document.querySelector('#word');
     const $order = document.querySelector('#order');
-    // const는 기본적으로 문자형이기에 parseInt()를 해주고 , 10은 10진법이라는 걸 표시해준다.
-    // 기본값은 10진법 이지만 표기해주는 것이 좋다.
-    //console.log('number ' + number); // 콘솔을 통해서 number가 들어가 있는지 확인
-    //const alertNumber = alert(number) // 경고창으로 사용자가 입력한 값을 보여준다.
-    //const confirmNumber = confirm(number) // 사용자가 입력한 값이 맞는지 여부를 선택 받는다.
+
     let word; // 제시어
     let newWord; // 새로 입력한 단어
 
     const onClickButton = () => {
-      if (!word) { // 제시어가 비어 있는가?
+      if (!word || word[word.length - 1] === newWord[0]) { // 제시어가 비어 있는가?
         // 비었다면. 
         word = newWord; // 입력한 단어가 제시어가 된다.
         $word.textContent = word;
-        $input.value = '';
-        $input.focus();
         const order = Number($order.textContent); // 현재 순서
         if(order < number) {
             $order.textContent++;
           } else {
             $order.textContent = 1;
-          }
-      } else {
-        // 비어 있지 않다.
-        if(word[word.length -1] === newWord[0]){ // 단어가 올바른가?
-          word = newWord;
-          $word.textContent = word;
-          $input.value = '';
-          $input.focus();
-          const order = Number($order.textContent); // 현재 순서
-          if(order < number) {
-            $order.textContent++;
-          } else {
-            $order.textContent = 1;
-          }
-          
-        }else { // 단어가 올바르지 않은가?
-          alert('올바르지 않은 단어입니다.')
-          $input.value = '';
-          $input.focus();
-          $word.textContent = '';
-        }
+          }        
+      } else { // 단어가 올바르지 않은가?
+        alert('올바르지 않은 단어입니다.')
       }
+      $input.value = '';
+      $input.focus();
+      //다음 순서로 넘어갈 때 진행되어야 할 것들은 if문 밖에 작성해 중복을 줄일 수있다.
     };
     const onInput = (event) => {
       newWord = event.target.value;
     };
-
-    /*document.querySelector('input').addEventListener('input', function() {
-      console.log('키보드 입력1')
-    });*/
-
     $button.addEventListener('click', onClickButton);
     $input.addEventListener('input', onInput);
   </script>
